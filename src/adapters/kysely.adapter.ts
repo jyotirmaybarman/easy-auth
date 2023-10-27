@@ -13,51 +13,35 @@ export class KyselyAdapter implements DatabaseClient {
     if (data.migrate) migrateToLatest(this.db, data.options.client);
   }
 
-  async createUser(data: InsertObject<Database, "users">): Promise<UserType> {
-    const user = await this.db
-      .insertInto("users")
-      .values(data)
-      .returningAll()
-      .execute();
-
-    return user[0] as UserType;
+  async createUser(data: InsertObject<Database, "users">): Promise<UserType | undefined> {
+    const user = await this.db.insertInto("users").values(data).returningAll().executeTakeFirst();
+    return user
   }
 
-  async findUser(filter: UserType, select?: (keyof UserType)[]): Promise<UserType | null> {
+  async findUser(filter: UserType, select?: (keyof UserType)[]): Promise<UserType | undefined> {
     let query = this.db.selectFrom("users");
-    select?.length
-      ? select.forEach((str) => (query = query.select(str)))
-      : (query = query.selectAll());
+    select?.length ? select.forEach((str) => (query = query.select(str))) : (query = query.selectAll());
     query = this.updateQuery(filter, query);
-
     const user = await query.executeTakeFirst();
-
-    return user as UserType;
+    return user;
   }
 
-  async deleteUser(filter: UserType): Promise<UserType> {
+  async deleteUser(filter: UserType): Promise<UserType | undefined> {
     let query = this.db.deleteFrom("users");
     query = this.updateQuery(filter, query);
-    const user = await query.returningAll().execute();
-    return user[0] as UserType;
+    const user = await query.returningAll().executeTakeFirst();
+    return user;
   }
 
-  async updateUser(
-    filter: UserType,
-    data: UpdateObject<Database, "users">
-  ): Promise<any | null> {
+  async updateUser(filter: UserType, data: UpdateObject<Database, "users">): Promise<any | null> {
     let query = this.db.updateTable("users");
-
     query = this.updateQuery(filter, query);
-
-    const user = await query.set(data).returningAll().execute();
-    return user[0] as UserType;
+    const user = await query.set(data).returningAll().executeTakeFirst();
+    return user;
   }
 
   private updateQuery(filter: UserType, query: any) {
-    Object.keys(filter).forEach( key => {
-      query = query.where(key, '=', filter[key as keyof UserType]);
-    })
+    Object.keys(filter).forEach( key => query = query.where(key, '=', filter[key as keyof UserType]))
     return query;
   }
 }
