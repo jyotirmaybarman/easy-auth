@@ -55,20 +55,9 @@ export class KyselyAdapter implements DatabaseClient {
   }
 
   private updateQuery(filter: UserType, query: any) {
-    if (filter.email) query = query.where("email", "=", filter.email);
-    if (filter.id) query = query.where("id", "=", filter.id);
-    if (filter.first_name)
-      query = query.where("first_name", "=", filter.first_name);
-    if (filter.last_name)
-      query = query.where("last_name", "=", filter.last_name);
-    if (filter.middle_name)
-      query = query.where("middle_name", "=", filter.middle_name);
-    if (filter.verified) query = query.where("verified", "=", filter.verified);
-    if (filter.verification_token)
-      query = query.where("verification_token", "=", filter.verification_token);
-    if (filter.reset_token)
-      query = query.where("reset_token", "=", filter.reset_token);
-
+    Object.keys(filter).forEach( key => {
+      query = query.where(key, '=', filter[key as keyof UserType]);
+    })
     return query;
   }
 }
