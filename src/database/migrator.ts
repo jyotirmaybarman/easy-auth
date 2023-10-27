@@ -6,7 +6,7 @@ import {
   Kysely,
 } from 'kysely'
 
-export async function migrateToLatest(db: Kysely<any>, client: "postgres" | "mysql") {
+export async function migrateToLatest(db: Kysely<any>, client: "postgres" | "mysql", refresh?:boolean) {
 
 
   const migrator = new Migrator({
@@ -18,6 +18,8 @@ export async function migrateToLatest(db: Kysely<any>, client: "postgres" | "mys
       migrationFolder: path.join(__dirname, 'migrations', client),
     }),
   })
+
+  if(refresh) await migrator.migrateDown()
 
   const { error, results } = await migrator.migrateToLatest()
 

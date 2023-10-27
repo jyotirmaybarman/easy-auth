@@ -10,7 +10,7 @@ export class KyselyAdapter implements DatabaseClient {
   private db;
   constructor(data: InitConfigType) {
     this.db = getDatabaseConnection(data.options);
-    if (data.migrate) migrateToLatest(this.db, data.options.client);
+    if (data.migrate) migrateToLatest(this.db, data.options.client, data.refresh);
   }
 
   async createUser(data: InsertObject<Database, "users">): Promise<UserType | undefined> {
