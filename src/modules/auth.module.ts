@@ -10,7 +10,9 @@ export class Auth{
 
     async register(data: CreateUserType) {
         console.log("In register method");
-        console.log(data);
-        return data;
+        const user = await this.adaptor.findUser({
+            first_name: data.first_name
+        })
+        return user;
     }
 }
