@@ -1,3 +1,6 @@
-import { DatabaseConfigType } from "./database-config.type";
+import { MysqlPoolType, PostgresPoolType } from "./database-pool.type";
 
-export type InitConfigType = { options: DatabaseConfigType; migrate?: boolean, refresh?:boolean };
+type InitWithMysqlType = { client: "mysql", pool: MysqlPoolType ; migrate?: boolean, refresh?:boolean };
+type InitWithPostgresType = { client: "postgres", pool: PostgresPoolType ; migrate?: boolean, refresh?:boolean };
+
+export type InitConfigType = InitWithMysqlType | InitWithPostgresType

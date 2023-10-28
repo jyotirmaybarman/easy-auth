@@ -1,38 +1,35 @@
 import { Database } from "./schema";
-import mysql2 from "mysql2";
-import pg from "pg";
 import { Kysely, PostgresDialect, MysqlDialect } from "kysely";
-import { DatabaseConfigType } from "../types/database-config.type";
+import { MysqlPoolType, PostgresPoolType } from '../types/database-pool.type';
+import { InitConfigType } from "../types/init-config.type";
+import { migrateToLatest } from "./migrator";
 
-export function getDatabaseConnection(
-  config: DatabaseConfigType
-): Kysely<Database> {
+export function getDatabaseConnection(data: InitConfigType): Kysely<Database> {
   let dialect;
-  if (config.client == "mysql") {
-    dialect = new MysqlDialect({
-      pool: mysql2.createPool({
-        host: config.host,
-        port: config.port,
-        user: config.user,
-        password: config.password,
-        database: config.database,
-      }),
-    });
-  } else {
-    dialect = new PostgresDialect({
-      pool: new pg.Pool({
-        host: config.host,
-        port: config.port,
-        user: config.user,
-        password: config.password,
-        database: config.database,
-      }),
-    });
+  if (data.client == "mysql") {
+    dialect = new MysqlDialect({ pool: data.pool as MysqlPoolType });
+  } else if(data.client == "postgres") {
+    dialect = new PostgresDialect({ pool: data.pool as PostgresPoolType });
+  }
+
+  if(!dialect) {
+    throw new Error(`Invalid database client${data.client ? ':' : ''} "${data.client}"`);
   }
 
   const db = new Kysely<Database>({
     dialect,
   });
+
+  if(data.migrate) migrateToLatest(db, data.client)
+  
+  db.introspection.getTables({ withInternalKyselyTables: true }).then(tables => {    
+    console.log("Easy-Auth: Module initialized successfully");
+    if(tables[0]?.name != 'kysely_migration' && !data.migrate) {
+      console.log("NOTE: if you need migrations, just pass `migrate: true` while configuration");
+    }
+  }).catch(error => {
+    console.log(error);
+  })
 
   return db;
 }

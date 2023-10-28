@@ -3,14 +3,12 @@ import { DatabaseClient } from "../interfaces/database-client.interface";
 import { UserType } from "../types/user.type";
 import { Database } from "../database/schema";
 import { InsertObject, UpdateObject } from "kysely";
-import { migrateToLatest } from "../database/migrator";
 import { InitConfigType } from "../types/init-config.type";
 
 export class KyselyAdapter implements DatabaseClient {
   private db;
   constructor(data: InitConfigType) {
-    this.db = getDatabaseConnection(data.options);
-    if (data.migrate) migrateToLatest(this.db, data.options.client, data.refresh);
+    this.db = getDatabaseConnection(data);
   }
 
   async createUser(data: InsertObject<Database, "users">): Promise<UserType | undefined> {
