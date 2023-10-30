@@ -1,13 +1,40 @@
-import { InsertObject, UpdateObject } from "kysely";
 import { UserType } from "../types/user.type";
-import { Database } from "../database/schema";
+import { CreateUserType } from "../types/create-user.type";
 
 export interface DatabaseClient {
-  createUser(data: InsertObject<Database, "users">): Promise<UserType | undefined>;
+  /**
+   * 
+   * @param data 
+   * It either creates a new user or throws an error
+   * @returns user
+   */
+  createUser(data: CreateUserType): Promise<UserType>;
+
+  /**
+   * 
+   * @param filter 
+   * @param data 
+   * It either updates an user data or throws an error
+   * @returns user
+   */
   updateUser(
     filter: UserType,
-    data: UpdateObject<Database, "users">
-  ): Promise<UserType | undefined>;
-  deleteUser(filter: UserType): Promise<UserType | undefined>;
-  findUser(filter: UserType, select?: (keyof UserType)[]): Promise<UserType | undefined>;
+    data: Partial<Omit<UserType, "created_at" | "updated_at">>
+  ): Promise<UserType>;
+
+  /**
+   * 
+   * @param filter 
+   * It either deletes an user or throws an error
+   * @returns user
+   */
+  deleteUser(filter: UserType): Promise<UserType>;
+
+  /**
+   * 
+   * @param filter 
+   * It either finds an user or returns null
+   * @returns user | null
+   */
+  findUser(filter: UserType, select?: (keyof UserType)[]): Promise<Partial<UserType> | undefined>;
 }
