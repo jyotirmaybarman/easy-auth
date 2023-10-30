@@ -1,14 +1,11 @@
-import { getDatabaseConnection } from "..";
 import { DatabaseClient } from "../../interfaces/database-client.interface";
 import { UserType } from "../../types/user.type";
-import { InitConfigType } from "../../types/init-config.type";
 import { CreateUserType } from "../../types/create-user.type";
+import { Database } from "../schema";
+import { Kysely } from "kysely";
 
 export class KyselyAdapter implements DatabaseClient {
-  private db;
-  constructor(data: InitConfigType) {
-    this.db = getDatabaseConnection(data);
-  }
+  constructor(private readonly db: Kysely<Database>) {}
 
   async createUser(data: CreateUserType): Promise<UserType> {
     const user = await this.db

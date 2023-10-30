@@ -1,10 +1,10 @@
 import { Database } from "./schema";
 import { Kysely, PostgresDialect, MysqlDialect } from "kysely";
 import { MysqlPoolType, PostgresPoolType } from '../types/database-pool.type';
-import { InitConfigType } from "../types/init-config.type";
+import { InitWithMysqlType, InitWithPostgresType } from "../types/init-config.type";
 import { migrateToLatest } from "./migrator";
 
-export function getDatabaseConnection(data: InitConfigType): Kysely<Database> {
+export function getDatabaseConnection(data: InitWithMysqlType | InitWithPostgresType): Kysely<Database> {
   let dialect;
   if (data.client == "mysql") {
     dialect = new MysqlDialect({ pool: data.pool as MysqlPoolType });
