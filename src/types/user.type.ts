@@ -7,7 +7,7 @@ export type UserType = {
     created_at: Date
     updated_at: Date
     password: string
-    reset_token: string
+    reset_token: string | null
     verified: boolean
-    verification_token: string
+    verification_token: string | null
 }

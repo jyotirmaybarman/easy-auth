@@ -4,4 +4,6 @@ export type CreateUserType = {
     last_name: string;
     password: string;
     email: string;
+    verified?: boolean;
+    verification_token?: string | null
 }
