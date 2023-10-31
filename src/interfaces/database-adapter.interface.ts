@@ -1,7 +1,7 @@
 import { UserType } from "../types/user.type";
 import { CreateUserType } from "../types/create-user.type";
 
-export interface DatabaseClient {
+export interface DatabaseAdapterInterface {
   /**
    * 
    * @param data 
@@ -18,7 +18,7 @@ export interface DatabaseClient {
    * @returns user
    */
   updateUser(
-    filter: UserType,
+    filter: Partial<UserType>,
     data: Partial<Omit<UserType, "created_at" | "updated_at">>
   ): Promise<UserType>;
 
@@ -28,7 +28,7 @@ export interface DatabaseClient {
    * It either deletes an user or throws an error
    * @returns user
    */
-  deleteUser(filter: UserType): Promise<UserType>;
+  deleteUser(filter: Partial<UserType>): Promise<UserType>;
 
   /**
    * 
@@ -36,5 +36,5 @@ export interface DatabaseClient {
    * It either finds an user or returns null
    * @returns user | null
    */
-  findUser(filter: UserType, select?: (keyof UserType)[]): Promise<Partial<UserType> | undefined>;
+  findUser(filter: Partial<UserType>, select?: (keyof UserType)[]): Promise<UserType | undefined>;
 }

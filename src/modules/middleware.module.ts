@@ -7,11 +7,6 @@ export class Middleware {
     return async (req: Request, res: Response, next: NextFunction) => {
       console.log("In verify token middleware");
       console.log(this.config);
-      const users = await this.config.db
-        .selectFrom("users")
-        .selectAll()
-        .execute();
-      console.log(users);
       next();
     };
   }

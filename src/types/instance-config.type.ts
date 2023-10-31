@@ -1,7 +1,6 @@
-import { Kysely } from "kysely";
+import { DatabaseAdapterInterface } from "../interfaces/database-adapter.interface";
 import { InitConfigType } from "./init-config.type";
-import { Database } from "../database/schema";
 
 export type InstanceConfigType = Omit<InitConfigType, "database"> & {
-    db: Kysely<Database>
-}
+  adapter: DatabaseAdapterInterface;
+};
