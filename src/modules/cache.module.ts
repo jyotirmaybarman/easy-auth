@@ -10,6 +10,11 @@ export type SomethingExtendingStoreType<S extends Store = Store> = {
     store: S;
 };
 
+export enum CacheKeysEnum {
+    REFRESH_PREFIX = 'refresh_',
+    ACCESS_PREFIX = 'access_',
+}  
+
 export class Cache {
     public static adapter: SomethingExtendingStoreType
     public static initialized = false

@@ -6,7 +6,6 @@ export class Middleware {
   verifyAccessToken() {
     return async (req: Request, res: Response, next: NextFunction) => {
       console.log("In verify token middleware");
-      console.log(this.config);
       next();
     };
   }
