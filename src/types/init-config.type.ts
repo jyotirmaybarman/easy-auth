@@ -1,3 +1,4 @@
+import { Store } from "cache-manager";
 import { DatabaseAdapterInterface } from "../interfaces/database-adapter.interface";
 
 export type InitConfigType = {
@@ -8,4 +9,5 @@ export type InitConfigType = {
     refresh_token_secret: string;
     access_token_secret: string;
   };
+  cache: (() => Promise<Store>) | "memory"
 };

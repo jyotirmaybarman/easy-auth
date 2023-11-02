@@ -1,6 +1,11 @@
 import { DatabaseAdapterInterface } from "../interfaces/database-adapter.interface";
-import { InitConfigType } from "./init-config.type";
 
-export type InstanceConfigType = Omit<InitConfigType, "database"> & {
+export type InstanceConfigType = {
   adapter: DatabaseAdapterInterface;
+  jwt: {
+    email_verification_secret: string;
+    password_reset_secret: string;
+    refresh_token_secret: string;
+    access_token_secret: string;
+  }
 };
