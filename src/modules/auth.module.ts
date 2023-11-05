@@ -96,7 +96,7 @@ export class Auth implements AuthModuleInterface {
     if(!optionsValidation.success) return this.formatZodErrorAndSend(optionsValidation.error)
     const { data: OPTIONS } = optionsValidation as SafeParseSuccess<LoginOptionsDto>
 
-    const user = await this.config.adapter.findUser({ email: data.email });
+    const user = await this.config.adapter.findUser({ email: data.email, verified: true });
     if (!user) return this.notFound();
 
     const match = await bcryptjs.compare(data.password, user.password);
