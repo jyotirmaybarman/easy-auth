@@ -1,6 +1,6 @@
 {
   "name": "@jyotirmay/easy-auth",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jyotirmaybarman/express-auth.git"
+    "url": "git+https://github.com/jyotirmaybarman/easy-auth.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jyotirmaybarman/express-auth/issues"
+    "url": "https://github.com/jyotirmaybarman/easy-auth/issues"
   },
-  "homepage": "https://github.com/jyotirmaybarman/express-auth#readme",
+  "homepage": "https://github.com/jyotirmaybarman/easy-auth#readme",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.5",
     "@types/express": "^4.17.20",
