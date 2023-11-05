@@ -23,7 +23,7 @@ The Middleware class consists of middleware functions to be used in the authenti
 - More to be added
 
 ### Installation
-To install YourAuthPackageName, follow these steps:
+To install follow these steps:
 
 ```bash
 npm i @jyotirmay/easy-auth @jyotirmay/easy-auth-kysely-adapter
