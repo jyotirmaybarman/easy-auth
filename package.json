@@ -1,5 +1,5 @@
 {
-  "name": "easy-auth",
+  "name": "@jyotirmay/easy-auth",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
