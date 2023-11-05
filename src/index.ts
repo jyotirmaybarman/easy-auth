@@ -1,7 +1,6 @@
 import { Auth } from "./modules/auth.module";
 import { Cache } from "./modules/cache.module";
 import { Middleware } from "./modules/middleware.module";
-import { Validation } from './modules/validation.module';
 import { InitConfigType } from './types/init-config.type';
 
 
@@ -11,7 +10,6 @@ export function init (config: Omit<InitConfigType, "cache"> & Partial<Pick<InitC
   new Cache(newConfig)
   return {
     Auth: new Auth(newConfig),
-    Validation: new Validation(newConfig),
     Middleware: new Middleware(newConfig)
   }
 }

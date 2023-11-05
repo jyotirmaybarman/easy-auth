@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const CreateUserSchema = z.object({
+export const RegistrationSchema = z.object({
     first_name: z.string().min(1).max(50).regex(/^[a-zA-Z]+$/).trim(),
     middle_name: z.string().min(1).max(50).regex(/^[a-zA-Z]+$/).trim().optional(),
     last_name: z.string().min(1).max(50).regex(/^[a-zA-Z]+$/).trim(),
@@ -11,3 +11,5 @@ export const CreateUserSchema = z.object({
     .regex(/[0-9]/,"Must contain at least one number")
     .regex(/\W|_/,"Must include a special character")
 })
+
+export type RegistrationDto = z.infer<typeof RegistrationSchema>;

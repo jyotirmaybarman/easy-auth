@@ -8,7 +8,7 @@ export interface DatabaseAdapterInterface {
    * It either creates a new user or throws an error
    * @returns user
    */
-  createUser(data: CreateUserType): Promise<UserType>;
+  createUser(data: CreateUserType): Promise<UserType | undefined>;
 
   /**
    * 
@@ -17,10 +17,7 @@ export interface DatabaseAdapterInterface {
    * It either updates an user data or throws an error
    * @returns user
    */
-  updateUser(
-    filter: Partial<UserType>,
-    data: Partial<Omit<UserType, "created_at" | "updated_at">>
-  ): Promise<UserType>;
+  updateUser(filter: Partial<UserType>, data: Partial<UserType>): Promise<UserType | undefined>;
 
   /**
    * 
@@ -28,7 +25,7 @@ export interface DatabaseAdapterInterface {
    * It either deletes an user or throws an error
    * @returns user
    */
-  deleteUser(filter: Partial<UserType>): Promise<UserType>;
+  deleteUser(filter: Partial<UserType>): Promise<UserType | undefined>;
 
   /**
    * 
